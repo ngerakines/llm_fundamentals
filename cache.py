@@ -28,6 +28,7 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 import argparse
 from datasets import load_dataset
 from huggingface_hub import snapshot_download
+import ollama
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -35,8 +36,24 @@ if __name__ == "__main__":
         epilog=__usage__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    parser.add_argument("-v", "--verbose", action="count", default=0)
+
+    parser.add_argument(
+        "--verbose",
+        "-v",
+        dest="log_level",
+        action="append_const",
+        const=1,
+    )
+    parser.add_argument(
+        "--quiet",
+        "-q",
+        dest="log_level",
+        action="append_const",
+        const=-1,
+    )
+
     args = parser.parse_args()
+    log_level = sum((args.log_level or []) + [1])
 
     models = [
         "distilbert/distilbert-base-uncased",
@@ -53,7 +70,7 @@ if __name__ == "__main__":
     datasets = ["billsum", "squad"]
 
     for model in models:
-        if args.verbose > 0:
+        if log_level > 0:
             print(f"Downloading model: {model}")
         snapshot_download(repo_id=model)
 
@@ -65,3 +82,14 @@ if __name__ == "__main__":
 
     load_dataset("squad", split="train[:10100]")
     load_dataset("billsum", split="train[:10000]")
+
+    for ollama_model, last_known_size in [
+        ("llama3", "4.7 GB"),
+        ("llama3:8b", "4.7 GB"),
+        ("llama3:70b", "39 GB"),
+    ]:
+        if log_level > 0:
+            print(
+                f"Downloading Ollama model (approx {last_known_size}): {ollama_model}"
+            )
+        ollama.pull(ollama_model)

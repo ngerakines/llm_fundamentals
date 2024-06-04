@@ -18,3 +18,4 @@ langchain-chroma
 langchain_experimental
 langchain_openai
 hf_transfer
+ollama

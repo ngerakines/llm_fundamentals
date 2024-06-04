@@ -19,6 +19,12 @@ macOS Users: You'll need to do a few things first.
 * `brew install gfortran openblas`
 * `export OPENBLAS="$(brew --prefix openblas)"`
 
+## Ollama
+
+Some examples require ollama to be running.
+
+https://ollama.com/
+
 # Usage
 
 The `cache.py` script can be used to download and cache the models and datasets used by the project.
