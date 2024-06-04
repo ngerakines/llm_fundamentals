@@ -26,6 +26,7 @@ import warnings
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 import argparse
+from datasets import load_dataset
 from huggingface_hub import snapshot_download
 
 if __name__ == "__main__":
@@ -52,7 +53,10 @@ if __name__ == "__main__":
             print(f"Downloading model: {model}")
         snapshot_download(repo_id=model)
 
-    for dataset in datasets:
-        if args.verbose > 0:
-            print(f"Downloading dataset: {dataset}")
-        snapshot_download(repo_id=dataset, repo_type="dataset")
+    # BUG: datasets does not use the same cache as snapshot_download.
+    # for dataset in datasets:
+    #     if args.verbose > 0:
+    #         print(f"Downloading dataset: {dataset}")
+    #     snapshot_download(repo_id=dataset, repo_type="dataset")
+
+    load_dataset("squad", split="train[:10100]")

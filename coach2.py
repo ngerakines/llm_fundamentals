@@ -30,7 +30,8 @@ examples:
 # FROM https://huggingface.co/docs/hub/en/sentence-transformers
 
 import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
+
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 import argparse
 from typing import List, Set, Dict, Tuple
@@ -98,6 +99,7 @@ def get_intent(
 
     return results
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description=__doc__,
@@ -112,7 +114,12 @@ if __name__ == "__main__":
         default="sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
         help="The model to be used for encoding the query and documents. (default: %(default)s)",
     )
-    parser.add_argument("query", nargs="?", type=str, help="The query to be processed. (default: %(default)s)")
+    parser.add_argument(
+        "query",
+        nargs="?",
+        type=str,
+        help="The query to be processed. (default: %(default)s)",
+    )
 
     args = parser.parse_args()
     main(args.query, args.model)
