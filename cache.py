@@ -45,6 +45,10 @@ if __name__ == "__main__":
         "sentence-transformers/all-MiniLM-L6-v2",
         "sentence-transformers/multi-qa-MiniLM-L6-cos-v1",
         "sentence-transformers/sentence-t5-xxl",
+        "tomaarsen/span-marker-xlm-roberta-base-fewnerd-fine-super",
+        "tomaarsen/span-marker-bert-base-fewnerd-fine-super",
+        "bert-base-cased",
+        "xlm-roberta-base",
     ]
     datasets = ["billsum", "squad"]
 
@@ -60,3 +64,4 @@ if __name__ == "__main__":
     #     snapshot_download(repo_id=dataset, repo_type="dataset")
 
     load_dataset("squad", split="train[:10100]")
+    load_dataset("billsum", split="train[:10000]")
