@@ -21,14 +21,16 @@ examples:
         HF_HUB_ENABLE_HF_TRANSFER=1 ./.venv/bin/python cache.py
 """
 
+import os
 import warnings
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 import argparse
 from datasets import load_dataset
-from huggingface_hub import snapshot_download
+from huggingface_hub import snapshot_download, login
 import ollama
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -55,6 +57,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     log_level = sum((args.log_level or []) + [1])
 
+    login(os.getenv("HF_TOKEN"))
+
     models = [
         "distilbert/distilbert-base-uncased",
         "google-t5/t5-small",
@@ -66,6 +70,7 @@ if __name__ == "__main__":
         "tomaarsen/span-marker-bert-base-fewnerd-fine-super",
         "bert-base-cased",
         "xlm-roberta-base",
+        "meta-llama/Meta-Llama-3-8B-Instruct",
     ]
     datasets = ["billsum", "squad"]
 
